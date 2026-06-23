@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GG Hub – Landingpage</title>
+  <style>
+    :root {
+      --bg: #09090f;
+      --bg-2: #0f1020;
+      --panel: rgba(255,255,255,0.04);
+      --panel-2: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.10);
+      --text: #f5f7fb;
+      --muted: rgba(245,247,251,0.58);
+      --muted-2: rgba(245,247,251,0.42);
+      --accent: #ffffff;
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.15), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(59, 130, 246, 0.16), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.08), transparent 28%),
+        linear-gradient(180deg, #07070c 0%, #09090f 35%, #07070c 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(9,9,15,0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
+      color: #09090f;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 12px 30px rgba(255,255,255,0.12);
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav a, .pill, .ghost, .primary, .lang-btn {
+      border-radius: 999px;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav a {
+      padding: 11px 15px;
+      color: var(--muted);
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .lang-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      padding: 14px 20px;
+      font-weight: 800;
+      color: #09090f;
+      background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+      box-shadow: 0 16px 36px rgba(255,255,255,0.12);
+      cursor: pointer;
+    }
+
+    .primary:hover, .ghost:hover, .pill:hover, .lang-btn:hover { transform: translateY(-1px); }
+
+    .hero {
+      padding: 32px 0 18px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        linear-gradient(180deg, rgba(10,10,18,0.96), rgba(10,10,18,0.88));
+      box-shadow: var(--shadow);
+      padding: 26px 18px 18px;
+    }
+
+    .hero-card::before,
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(24px);
+      opacity: 0.28;
+    }
+
+    .hero-card::before {
+      top: -220px;
+      right: -180px;
+      background: radial-gradient(circle, rgba(99,102,241,0.8), transparent 62%);
+    }
+
+    .hero-card::after {
+      left: -220px;
+      bottom: -250px;
+      background: radial-gradient(circle, rgba(236,72,153,0.56), transparent 60%);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      box-shadow: 0 0 0 6px rgba(45,212,191,0.10);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 28px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.92rem;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(3rem, 9vw, 6.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.08em;
+      font-weight: 900;
+    }
+
+    .gradient-word {
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 42%, #c7c9d8 70%, #7e86a8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .hero-text {
+      margin: 20px auto 0;
+      max-width: 760px;
+      font-size: clamp(1.05rem, 2.3vw, 1.5rem);
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .cta-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 14px 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .download {
+      margin-top: 28px;
+      width: min(320px, 100%);
+      padding: 18px 22px;
+      border: 0;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      color: #09090f;
+      font-size: 1.02rem;
+      font-weight: 900;
+      box-shadow: 0 18px 42px rgba(255,255,255,0.12);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section {
+      padding: 22px 0;
+    }
+
+    .section-card {
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 18px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 6vw, 4.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .section-head p {
+      margin: 18px auto 0;
+      font-size: clamp(1rem, 1.9vw, 1.25rem);
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 760px;
+      font-weight: 600;
+    }
+
+    .discover {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 30px;
+    }
+
+    .pill {
+      padding: 18px 30px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-weight: 800;
+      min-width: 210px;
+      text-align: center;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .stat {
+      border-radius: 22px;
+      padding: 22px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      min-height: 128px;
+      display: grid;
+      place-items: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      color: var(--muted-2);
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .library {
+      padding-top: 30px;
+    }
+
+    .library-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .game-card {
+      overflow: hidden;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .cover {
+      height: 240px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 42%, #3b82f6 100%);
+      display: grid;
+      place-items: center;
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      color: rgba(255,255,255,0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+
+    .game-meta {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .game-title {
+      font-size: clamp(1.55rem, 4vw, 2.2rem);
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .subtle {
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 58ch;
+      font-weight: 600;
+    }
+
+    .tag {
+      align-self: center;
+      border-radius: 999px;
+      padding: 10px 14px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .feature {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .feature p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .footer {
+      padding: 24px 0 40px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .nav { display: none; }
+      .stats, .feature-grid { grid-template-columns: 1fr; }
+      .hero-card { padding: 22px 14px 16px; border-radius: 28px; }
+      .section-card { padding: 18px; }
+      .cover { height: 200px; }
+      .actions { width: 100%; justify-content: space-between; }
+    }
+
+    @media (min-width: 901px) {
+      .hero { padding-top: 42px; }
+      .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
+      .hero-copy { text-align: left; margin: 0; }
+      .cta-row, .download { justify-content: flex-start; }
+      .download { width: auto; min-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">GG</div>
+        <div class="brand-name">GG Hub</div>
+      </div>
+
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="#home" data-i18n="nav_home">Home</a>
+        <a href="#spiele" data-i18n="nav_games">Spiele</a>
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#download" data-i18n="nav_download">Download</a>
+      </nav>
+
+      <div class="actions">
+        <div class="lang-switch" role="group" aria-label="Sprache ändern">
+          <button class="lang-btn active" data-lang="de" type="button">DE</button>
+          <button class="lang-btn" data-lang="en" type="button">EN</button>
+        </div>
+        <a class="primary" href="registrieren.html" data-i18n="register">Registrieren</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="shell hero-card">
+        <div class="hero-top">
+          <span class="badge"><span class="dot"></span> <span data-i18n="badge_main">Electron Desktop App · Discord Integration</span></span>
+          <span class="badge" data-i18n="badge_free">100% Kostenlos</span>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow" data-i18n="why">Warum GG Hub?</div>
+            <h1 data-i18n-html="hero_title">Dein Gaming <span class="gradient-word">Universum</span></h1>
+            <p class="hero-text" data-i18n="hero_text">
+              GG Hub vereint deine Spiele, deinen Account und Discord in einer eleganten Desktop-App.
+              Launcher, Login und Rich Presence — alles an einem Ort.
+            </p>
+            <div class="cta-row">
+              <a class="primary" href="laden.html" data-i18n="download_now">Jetzt herunterladen</a>
+              <a class="ghost" href="link.html" data-i18n="learn_more">Mehr erfahren</a>
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="section-card" style="padding:18px;">
+              <div class="discover">
+                <div class="pill" data-i18n="discover_games">Spiele entdecken</div>
+              </div>
+              <div class="stats" aria-label="Kennzahlen">
+                <div class="stat">
+                  <strong>4</strong>
+                  <span data-i18n="stat_games">Spiele</span>
+                </div>
+                <div class="stat">
+                  <strong>∞</strong>
+                  <span data-i18n="stat_rpc">Discord RPC</span>
+                </div>
+                <div class="stat">
+                  <strong>100%</strong>
+                  <span data-i18n="stat_free">Kostenlos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="spiele" class="section library">
+      <div class="shell section-card">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="library_badge">Spielebibliothek</div>
+          <h2 data-i18n="games_title">Unsere Spiele</h2>
+          <p data-i18n="games_text">Entdecke die Titel in GG Hub — von fertigen Spielen bis hin zu aufregenden Projekten, die gerade entstehen.</p>
+        </div>
+
+        <div class="library-grid">
+          <article class="game-card">
+            <div class="cover">ZD</div>
+            <div class="game-meta">
+              <div>
+                <div class="game-title" data-i18n="game_name">Zeit-Dieb</div>
+                <p class="subtle" data-i18n="game_desc">Ein mysteriöses Abenteuer rund um gestohlene Zeit. Löse Rätsel, erkunde Orte und bringe die Sekunden zurück.</p>
+              </div>
+              <div class="tag" data-i18n="status_work">In Arbeit</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="shell section-card">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="all_you_need">Alles, was du brauchst</div>
+          <h2 data-i18n="features_title">Launcher. Login. Rich Presence.</h2>
+          <p data-i18n="features_text">Ein schlankes Design, schnelle Bedienung und alle wichtigen Funktionen in einer Oberfläche — genau für Gamer entwickelt.</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <h3 data-i18n="feature1_title">Game Launcher</h3>
+            <p data-i18n="feature1_text">Starte deine Spiele direkt aus einer aufgeräumten Bibliothek mit klarer Navigation und schnellen Aktionen.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="feature2_title">Account & Login</h3>
+            <p data-i18n="feature2_text">Verbinde deine Profile und halte alles an einem Ort, ohne zwischen mehreren Tools wechseln zu müssen.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="feature3_title">Discord Integration</h3>
+            <p data-i18n="feature3_text">Zeige deinen aktuellen Status mit Rich Presence und bleibe sichtbar, während du spielst.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell section-card">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="more_details">Mehr Details</div>
+          <h2 data-i18n="special_title">Was GG Hub besonders macht</h2>
+          <p data-i18n="special_text">Die Seite wirkt nicht nur wie ein Launcher, sondern wie ein kleines Gaming-Ökosystem mit Struktur, Übersicht und klaren Infos.</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <h3 data-i18n="detail1_title">Ein Ort für alles</h3>
+            <p data-i18n="detail1_text">Spiele, Profil, Status und Community-Features laufen in einer einzigen Oberfläche zusammen.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="detail2_title">Sauberes Design</h3>
+            <p data-i18n="detail2_text">Dunkle Oberfläche, starke Kontraste und große Typografie sorgen für ein modernes Premium-Gefühl.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="detail3_title">Schneller Zugriff</h3>
+            <p data-i18n="detail3_text">Wichtige Aktionen wie Download, Login und Spielstart sind sofort erreichbar und leicht verständlich.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell section-card">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="roadmap">Roadmap</div>
+          <h2 data-i18n="roadmap_title">Was als Nächstes kommt</h2>
+          <p data-i18n="roadmap_text">Ein kurzer Ausblick macht die Seite lebendiger und gibt dem Projekt mehr Glaubwürdigkeit.</p>
+        </div>
+
+        <div class="library-grid">
+          <article class="game-card">
+            <div class="game-meta">
+              <div>
+                <div class="game-title" data-i18n="phase1_title">Phase 1</div>
+                <p class="subtle" data-i18n="phase1_text">Launcher, Spielbibliothek, Login und Grunddesign.</p>
+              </div>
+              <div class="tag" data-i18n="phase1_tag">Fertig / in Arbeit</div>
+            </div>
+          </article>
+          <article class="game-card">
+            <div class="game-meta">
+              <div>
+                <div class="game-title" data-i18n="phase2_title">Phase 2</div>
+                <p class="subtle" data-i18n="phase2_text">Mehr Spiele, bessere Profile, Community-Features und automatische Updates.</p>
+              </div>
+              <div class="tag" data-i18n="phase2_tag">Geplant</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell section-card">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="faq">FAQ</div>
+          <h2 data-i18n="faq_title">Häufige Fragen</h2>
+        </div>
+
+        <div class="library-grid">
+          <article class="game-card">
+            <div class="game-title" style="font-size:1.25rem;" data-i18n="faq1_q">Ist GG Hub kostenlos?</div>
+            <p class="subtle" data-i18n="faq1_a">Ja, der aktuelle Stand der Seite zeigt GG Hub als kostenloses Projekt.</p>
+          </article>
+          <article class="game-card">
+            <div class="game-title" style="font-size:1.25rem;" data-i18n="faq2_q">Was ist „In Arbeit“?</div>
+            <p class="subtle" data-i18n="faq2_a">Damit markierst du Projekte, die noch nicht veröffentlicht sind, aber bereits vorgestellt werden können.</p>
+          </article>
+          <article class="game-card">
+            <div class="game-title" style="font-size:1.25rem;" data-i18n="faq3_q">Kann man später mehr Unterseiten ergänzen?</div>
+            <p class="subtle" data-i18n="faq3_a">Ja, die Struktur ist so angelegt, dass du leicht weitere Seiten wie Features, Download oder Support ergänzen kannst.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="download" class="section">
+      <div class="shell section-card" style="text-align:center;">
+        <div class="eyebrow" data-i18n="ready">Bereit zum Start?</div>
+        <h2 data-i18n="get_hub">Hol dir GG Hub</h2>
+        <p class="hero-text" style="max-width:760px; margin: 18px auto 0;" data-i18n="download_text">
+          Das Download-Erlebnis ist bewusst einfach gehalten: klicken, installieren und direkt loslegen.
+        </p>
+        <div style="display:flex; justify-content:center;">
+          <a class="download" href="laden.html" data-i18n="download_now">Jetzt herunterladen</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell" data-i18n="footer">© 2026 GG Hub · Dark landing page mockup</footer>
+
+  <script>
+    const translations = {
+      de: {
+        nav_home: "Home",
+        nav_games: "Spiele",
+        nav_features: "Features",
+        nav_download: "Download",
+        register: "Registrieren",
+        badge_main: "Electron Desktop App · Discord Integration",
+        badge_free: "100% Kostenlos",
+        why: "Warum GG Hub?",
+        hero_title: 'Dein Gaming <span class="gradient-word">Universum</span>',
+        hero_text: "GG Hub vereint deine Spiele, deinen Account und Discord in einer eleganten Desktop-App. Launcher, Login und Rich Presence — alles an einem Ort.",
+        download_now: "Jetzt herunterladen",
+        learn_more: "Mehr erfahren",
+        discover_games: "Spiele entdecken",
+        stat_games: "Spiele",
+        stat_rpc: "Discord RPC",
+        stat_free: "Kostenlos",
+        library_badge: "Spielebibliothek",
+        games_title: "Unsere Spiele",
+        games_text: "Entdecke die Titel in GG Hub — von fertigen Spielen bis hin zu aufregenden Projekten, die gerade entstehen.",
+        game_name: "Zeit-Dieb",
+        game_desc: "Ein mysteriöses Abenteuer rund um gestohlene Zeit. Löse Rätsel, erkunde Orte und bringe die Sekunden zurück.",
+        status_work: "In Arbeit",
+        all_you_need: "Alles, was du brauchst",
+        features_title: "Launcher. Login. Rich Presence.",
+        features_text: "Ein schlankes Design, schnelle Bedienung und alle wichtigen Funktionen in einer Oberfläche — genau für Gamer entwickelt.",
+        feature1_title: "Game Launcher",
+        feature1_text: "Starte deine Spiele direkt aus einer aufgeräumten Bibliothek mit klarer Navigation und schnellen Aktionen.",
+        feature2_title: "Account & Login",
+        feature2_text: "Verbinde deine Profile und halte alles an einem Ort, ohne zwischen mehreren Tools wechseln zu müssen.",
+        feature3_title: "Discord Integration",
+        feature3_text: "Zeige deinen aktuellen Status mit Rich Presence und bleibe sichtbar, während du spielst.",
+        more_details: "Mehr Details",
+        special_title: "Was GG Hub besonders macht",
+        special_text: "Die Seite wirkt nicht nur wie ein Launcher, sondern wie ein kleines Gaming-Ökosystem mit Struktur, Übersicht und klaren Infos.",
+        detail1_title: "Ein Ort für alles",
+        detail1_text: "Spiele, Profil, Status und Community-Features laufen in einer einzigen Oberfläche zusammen.",
+        detail2_title: "Sauberes Design",
+        detail2_text: "Dunkle Oberfläche, starke Kontraste und große Typografie sorgen für ein modernes Premium-Gefühl.",
+        detail3_title: "Schneller Zugriff",
+        detail3_text: "Wichtige Aktionen wie Download, Login und Spielstart sind sofort erreichbar und leicht verständlich.",
+        roadmap: "Roadmap",
+        roadmap_title: "Was als Nächstes kommt",
+        roadmap_text: "Ein kurzer Ausblick macht die Seite lebendiger und gibt dem Projekt mehr Glaubwürdigkeit.",
+        phase1_title: "Phase 1",
+        phase1_text: "Launcher, Spielbibliothek, Login und Grunddesign.",
+        phase1_tag: "Fertig / in Arbeit",
+        phase2_title: "Phase 2",
+        phase2_text: "Mehr Spiele, bessere Profile, Community-Features und automatische Updates.",
+        phase2_tag: "Geplant",
+        faq: "FAQ",
+        faq_title: "Häufige Fragen",
+        faq1_q: "Ist GG Hub kostenlos?",
+        faq1_a: "Ja, der aktuelle Stand der Seite zeigt GG Hub als kostenloses Projekt.",
+        faq2_q: "Was ist „In Arbeit“?",
+        faq2_a: "Damit markierst du Projekte, die noch nicht veröffentlicht sind, aber bereits vorgestellt werden können.",
+        faq3_q: "Kann man später mehr Unterseiten ergänzen?",
+        faq3_a: "Ja, die Struktur ist so angelegt, dass du leicht weitere Seiten wie Features, Download oder Support ergänzen kannst.",
+        ready: "Bereit zum Start?",
+        get_hub: "Hol dir GG Hub",
+        download_text: "Das Download-Erlebnis ist bewusst einfach gehalten: klicken, installieren und direkt loslegen.",
+        footer: "© 2026 GG Hub · Dark landing page mockup"
+      },
+      en: {
+        nav_home: "Home",
+        nav_games: "Games",
+        nav_features: "Features",
+        nav_download: "Download",
+        register: "Register",
+        badge_main: "Electron desktop app · Discord integration",
+        badge_free: "100% Free",
+        why: "Why GG Hub?",
+        hero_title: 'Your Gaming <span class="gradient-word">Universe</span>',
+        hero_text: "GG Hub brings your games, your account, and Discord together in one elegant desktop app. Launcher, login, and rich presence — all in one place.",
+        download_now: "Download now",
+        learn_more: "Learn more",
+        discover_games: "Discover games",
+        stat_games: "Games",
+        stat_rpc: "Discord RPC",
+        stat_free: "Free",
+        library_badge: "Game library",
+        games_title: "Our Games",
+        games_text: "Discover the titles in GG Hub — from finished games to exciting projects still in development.",
+        game_name: "Time Thief",
+        game_desc: "A mysterious adventure about stolen time. Solve puzzles, explore places, and bring the seconds back.",
+        status_work: "In progress",
+        all_you_need: "Everything you need",
+        features_title: "Launcher. Login. Rich Presence.",
+        features_text: "A clean design, fast navigation, and all the important tools in one interface — built for gamers.",
+        feature1_title: "Game Launcher",
+        feature1_text: "Start your games straight from a tidy library with clear navigation and quick actions.",
+        feature2_title: "Account & Login",
+        feature2_text: "Connect your profiles and keep everything in one place without switching between tools.",
+        feature3_title: "Discord Integration",
+        feature3_text: "Show your current status with Rich Presence and stay visible while you play.",
+        more_details: "More details",
+        special_title: "What makes GG Hub special",
+        special_text: "The site feels less like a launcher and more like a small gaming ecosystem with structure, clarity, and useful info.",
+        detail1_title: "One place for everything",
+        detail1_text: "Games, profile, status, and community features come together in one interface.",
+        detail2_title: "Clean design",
+        detail2_text: "Dark surfaces, strong contrast, and big typography create a modern premium feel.",
+        detail3_title: "Fast access",
+        detail3_text: "Important actions like download, login, and game launch are easy to reach and understand.",
+        roadmap: "Roadmap",
+        roadmap_title: "What comes next",
+        roadmap_text: "A quick outlook makes the page feel more alive and gives the project more credibility.",
+        phase1_title: "Phase 1",
+        phase1_text: "Launcher, game library, login, and base design.",
+        phase1_tag: "Done / in progress",
+        phase2_title: "Phase 2",
+        phase2_text: "More games, better profiles, community features, and automatic updates.",
+        phase2_tag: "Planned",
+        faq: "FAQ",
+        faq_title: "Frequently asked questions",
+        faq1_q: "Is GG Hub free?",
+        faq1_a: "Yes, the current version of the page presents GG Hub as a free project.",
+        faq2_q: "What does “In progress” mean?",
+        faq2_a: "It marks projects that are not released yet but can already be shown.",
+        faq3_q: "Can more subpages be added later?",
+        faq3_a: "Yes, the structure makes it easy to add pages like features, download, or support.",
+        ready: "Ready to start?",
+        get_hub: "Get GG Hub",
+        download_text: "The download flow is intentionally simple: click, install, and start right away.",
+        footer: "© 2026 GG Hub · Dark landing page mockup"
+      }
+    };
+
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const htmlTitle = document.querySelector('[data-i18n-html="hero_title"]');
+    const elements = document.querySelectorAll('[data-i18n]');
+
+    function setLanguage(lang) {
+      const dict = translations[lang] || translations.de;
+      document.documentElement.lang = lang;
+      langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+
+      elements.forEach(el => {
+        const key = el.dataset.i18n;
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      if (htmlTitle && dict.hero_title) {
+        htmlTitle.innerHTML = dict.hero_title;
+      }
+
+      document.title = lang === 'en' ? 'GG Hub – Landing page' : 'GG Hub – Landingpage';
+      localStorage.setItem('gg-hub-lang', lang);
+    }
+
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+
+    setLanguage(localStorage.getItem('gg-hub-lang') || 'de');
+  </script>
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/6a3a7bf6bc0cf41d4899033b/1jrq78fc9';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
+</body>
+</html>
